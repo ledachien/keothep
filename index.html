@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thí nghiệm Kéo Mẫu Thép & Gang — Sức bền Vật liệu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-page: #f2f4f3;
+      --card-bg: #ffffff;
+      --surface-soft: #f7f9f8;
+      --border-subtle: #d6ddd9;
+      --accent-primary: #135d4b;
+      --accent-hover: #0d4537;
+      --accent-tint: #e6f2ee;
+      --text-main: #1b2421;
+      --text-muted: #52605b;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    input[type="range"].lab-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #d6ddd9;
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"].lab-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.3);
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+
+    input[type="range"].lab-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+    }
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f3;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5d1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP HEADER -->
+  <header class="w-full border-b border-[#d6ddd9] bg-[#f2f4f3] px-4 sm:px-6 lg:px-8 pt-4 pb-3.5">
+    <div class="max-w-[1480px] mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+      <div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2 py-0.5 rounded bg-[#135d4b] text-white font-mono-tech text-[10.5px] font-bold tracking-wider">
+            TCVN 197-85 / 197-2000
+          </span>
+          <span class="text-xs font-semibold uppercase tracking-wider text-[#52605b]">
+            Sức bền Vật liệu — Phòng thí nghiệm Cơ học Vật liệu
+          </span>
+        </div>
+        <h1 class="mt-1 font-serif-title italic font-extrabold text-2xl sm:text-3xl text-[#1b2421] tracking-tight">
+          Thí nghiệm Kéo Mẫu Thép &amp; Gang
+        </h1>
+        <p class="mt-1 text-xs sm:text-[13px] text-[#52605b] max-w-3xl">
+          Mô phỏng máy kéo vạn năng M.A.N, vẽ biểu đồ quan hệ lực – biến dạng dài <strong class="font-mono-tech text-[#1b2421]">P – ΔL</strong>, quan sát hiện tượng thắt cổ chai, đứt gãy và đo lại chiều dài <strong class="font-mono-tech text-[#1b2421]">L₁</strong> theo quy tắc chia khoảng.
+        </p>
+      </div>
+
+      <!-- Quick Formula Badges -->
+      <div class="flex flex-wrap items-center gap-2 font-mono-tech text-[11px]">
+        <div class="px-3 py-1.5 rounded-lg bg-white border border-[#d6ddd9] shadow-sm">
+          <span class="text-[#52605b]">Giới hạn chảy:</span>
+          <strong class="text-[#135d4b]">σ<sub>ch</sub> = P<sub>ch</sub> / A<sub>0</sub></strong>
+        </div>
+        <div class="px-3 py-1.5 rounded-lg bg-white border border-[#d6ddd9] shadow-sm">
+          <span class="text-[#52605b]">Giới hạn bền:</span>
+          <strong class="text-[#135d4b]">σ<sub>B</sub> = P<sub>B</sub> / A<sub>0</sub></strong>
+        </div>
+        <div class="px-3 py-1.5 rounded-lg bg-white border border-[#d6ddd9] shadow-sm">
+          <span class="text-[#52605b]">Độ giãn &amp; thắt:</span>
+          <strong class="text-[#135d4b]">δ%, ψ%</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+      <!-- LEFT CONTROL PANEL (4 COLS) -->
+      <aside class="lg:col-span-4 xl:col-span-3 flex flex-col gap-4">
+
+        <!-- CARD 1: CHỌN VẬT LIỆU & KÍCH THƯỚC MẪU -->
+        <section class="bg-white rounded-xl border border-[#d6ddd9] p-4 shadow-sm">
+          <div class="flex items-center gap-2 mb-3.5">
+            <h2 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b] shrink-0">
+              1. VẬT LIỆU &amp; MẪU THỬ
+            </h2>
+            <div class="h-[1px] flex-1 bg-[#d6ddd9]"></div>
+          </div>
+
+          <!-- Material Toggle: Steel vs Cast Iron -->
+          <div class="mb-3.5">
+            <label class="block text-xs font-semibold text-[#1b2421] mb-1.5">Loại vật liệu thí nghiệm</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btn-mat-steel" onclick="setMaterial('steel')" class="py-2 px-2.5 rounded-lg text-xs font-bold border transition flex flex-col items-center">
+                <span>Thép cacbon thấp</span>
+                <span class="text-[10px] font-normal opacity-80">(Vật liệu dẻo)</span>
+              </button>
+              <button id="btn-mat-iron" onclick="setMaterial('iron')" class="py-2 px-2.5 rounded-lg text-xs font-bold border transition flex flex-col items-center">
+                <span>Gang xám</span>
+                <span class="text-[10px] font-normal opacity-80">(Vật liệu giòn)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sample Type: Long (10d0) vs Short (5d0) -->
+          <div id="sample-ratio-wrap" class="mb-3.5">
+            <label class="block text-xs font-semibold text-[#1b2421] mb-1.5">Tiêu chuẩn chiều dài tính toán L₀</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btn-ratio-10" onclick="setLengthFactor(10)" class="py-1.5 px-2 rounded-lg text-xs font-semibold border transition">
+                Mẫu dài (L₀ = 10d₀)
+              </button>
+              <button id="btn-ratio-5" onclick="setLengthFactor(5)" class="py-1.5 px-2 rounded-lg text-xs font-semibold border transition">
+                Mẫu ngắn (L₀ = 5d₀)
+              </button>
+            </div>
+          </div>
+
+          <!-- Diameter d0 -->
+          <div class="mb-3">
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <label for="slider-d0" class="font-medium text-[#1b2421]">Đường kính ban đầu d₀</label>
+              <span id="val-d0" class="font-mono-tech font-bold text-[#135d4b]">10.0 mm</span>
+            </div>
+            <input id="slider-d0" type="range" min="6" max="16" step="1" value="10" class="lab-slider" />
+          </div>
+
+          <!-- Fracture Position Preset (Middle vs Near Edge) -->
+          <div id="fracture-loc-wrap" class="mb-3">
+            <div class="flex items-center justify-between text-xs mb-1">
+              <label for="select-fracture-pos" class="font-medium text-[#1b2421]">Vị trí đứt dự kiến (kiểm tra quy tắc L₁)</label>
+            </div>
+            <select id="select-fracture-pos" onchange="setFracturePosition(this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-[#d6ddd9] bg-[#f7f9f8] text-xs font-semibold text-[#1b2421]">
+              <option value="center">Đứt ở khoảng giữa (L₀/3 ≤ x ≤ 2L₀/3)</option>
+              <option value="edge">Đứt lệch về biên (x &lt; L₀/3 — phải dời vạch)</option>
+            </select>
+          </div>
+
+          <!-- Calculated Initial Dimensions Box -->
+          <div class="rounded-lg bg-[#f7f9f8] border border-[#d6ddd9] p-2.5 grid grid-cols-3 gap-2 text-center font-mono-tech">
+            <div>
+              <span class="block text-[10px] text-[#52605b]">Tiết diện A₀</span>
+              <strong id="disp-A0" class="text-xs text-[#1b2421]">78.54 mm²</strong>
+            </div>
+            <div>
+              <span class="block text-[10px] text-[#52605b]">Chiều dài L₀</span>
+              <strong id="disp-L0" class="text-xs text-[#1b2421]">100 mm</strong>
+            </div>
+            <div>
+              <span class="block text-[10px] text-[#52605b]">Số khoảng N</span>
+              <strong id="disp-N" class="text-xs text-[#135d4b]">10 khoảng</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 2: ĐIỀU KHIỂN MÁY KÉO M.A.N -->
+        <section class="bg-white rounded-xl border border-[#d6ddd9] p-4 shadow-sm">
+          <div class="flex items-center gap-2 mb-3.5">
+            <h2 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b] shrink-0">
+              2. VẬN HÀNH MÁY KÉO M.A.N
+            </h2>
+            <div class="h-[1px] flex-1 bg-[#d6ddd9]"></div>
+          </div>
+
+          <!-- Play / Pause / Reset Controls -->
+          <div class="grid grid-cols-3 gap-2 mb-3.5">
+            <button id="btn-run" onclick="toggleRun()" class="col-span-2 py-2.5 px-3 rounded-lg bg-[#135d4b] hover:bg-[#0d4537] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+              <svg id="icon-play" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+              </svg>
+              <span id="txt-run-btn">Bắt đầu kéo mẫu</span>
+            </button>
+            <button onclick="resetExperiment()" class="py-2.5 px-2 rounded-lg border border-[#d6ddd9] bg-[#f7f9f8] hover:bg-[#ebefed] text-xs font-semibold text-[#1b2421] transition">
+              Làm lại
+            </button>
+          </div>
+
+          <!-- Manual Scrubbing Slider -->
+          <div class="mb-3">
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <label for="slider-progress" class="font-medium text-[#1b2421]">Tiến trình kéo (hoặc kéo tay thanh trượt)</label>
+              <span id="val-progress" class="font-mono-tech font-bold text-[#135d4b]">0%</span>
+            </div>
+            <input id="slider-progress" type="range" min="0" max="100" step="0.2" value="0" class="lab-slider" />
+          </div>
+
+          <!-- Speed Selector -->
+          <div class="flex items-center justify-between text-xs pt-2 border-t border-[#d6ddd9]">
+            <span class="text-[#52605b] font-medium">Tốc độ gia tải:</span>
+            <div class="flex gap-1">
+              <button onclick="setSpeed(0.5)" data-speed="0.5" class="speed-btn px-2 py-0.5 rounded border text-[11px] font-mono-tech font-semibold">0.5x</button>
+              <button onclick="setSpeed(1)" data-speed="1" class="speed-btn px-2 py-0.5 rounded border text-[11px] font-mono-tech font-semibold">1x</button>
+              <button onclick="setSpeed(2)" data-speed="2" class="speed-btn px-2 py-0.5 rounded border text-[11px] font-mono-tech font-semibold">2x</button>
+            </div>
+          </div>
+
+          <!-- Stage Indicator Banner -->
+          <div id="stage-banner" class="mt-3 p-2.5 rounded-lg bg-[#e6f2ee] border border-[#135d4b]/25 text-xs">
+            <div class="font-bold text-[#135d4b]" id="stage-title">Trạng thái: Sẵn sàng trong ngàm kéo</div>
+            <p class="mt-0.5 text-[11.5px] text-[#1b2421] leading-snug" id="stage-desc">
+              Mẫu đã được vạch chia 10 mm/khoảng và kẹp chặt vào ngàm máy kéo vạn năng M.A.N. Bấm "Bắt đầu kéo mẫu".
+            </p>
+          </div>
+        </section>
+
+        <!-- CARD 3: HƯỚNG DẪN ĐO L1 SAU KHI ĐỨT (MỤC 1.7 TÀI LIỆU) -->
+        <section class="bg-white rounded-xl border border-[#d6ddd9] p-4 shadow-sm">
+          <div class="flex items-center gap-2 mb-2.5">
+            <h2 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b] shrink-0">
+              3. QUY TẮC ĐO L₁ SAU ĐỨT
+            </h2>
+            <div class="h-[1px] flex-1 bg-[#d6ddd9]"></div>
+          </div>
+          <div id="rule-L1-box" class="text-[11.5px] text-[#52605b] leading-relaxed space-y-1.5">
+            <p>
+              • Chấp liền hai nửa mẫu đứt lại, đếm số khoảng <strong class="font-mono-tech text-[#1b2421]">x</strong> từ vạch biên A gần nhất đến vết đứt O.
+            </p>
+            <p>
+              • Nếu <strong class="font-mono-tech text-[#135d4b]">L₀/3 ≤ x ≤ 2L₀/3</strong>: Đo trực tiếp khoảng cách giữa 2 vạch biên ban đầu (<strong class="font-mono-tech">N</strong> khoảng).
+            </p>
+            <p>
+              • Nếu <strong class="font-mono-tech text-[#b8522a]">x &lt; L₀/3</strong> (đứt ở biên): Lấy điểm B đối xứng với A qua vết đứt O (đoạn AB có <strong class="font-mono-tech">n</strong> khoảng), sau đó cộng thêm <strong class="font-mono-tech">2·BC</strong> (nếu N−n chẵn) hoặc <strong class="font-mono-tech">2·BC + CC'</strong> (nếu N−n lẻ).
+            </p>
+          </div>
+        </section>
+
+      </aside>
+
+      <!-- RIGHT SIMULATION & RESULTS PANEL (8 COLS) -->
+      <div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-4">
+
+        <!-- TOP ROW: LIVE DIGITAL GAUGES -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-white rounded-xl border border-[#d6ddd9] p-3 shadow-sm">
+            <span class="text-[11px] font-semibold text-[#52605b] uppercase">Lực kéo tức thời P</span>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span id="gauge-P" class="font-mono-tech font-extrabold text-xl sm:text-2xl text-[#135d4b]">0.00</span>
+              <span class="font-mono-tech text-xs font-semibold text-[#52605b]">kN</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-[#d6ddd9] p-3 shadow-sm">
+            <span class="text-[11px] font-semibold text-[#52605b] uppercase">Độ giãn dài ΔL</span>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span id="gauge-dL" class="font-mono-tech font-extrabold text-xl sm:text-2xl text-[#1b2421]">0.00</span>
+              <span class="font-mono-tech text-xs font-semibold text-[#52605b]">mm</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-[#d6ddd9] p-3 shadow-sm">
+            <span class="text-[11px] font-semibold text-[#52605b] uppercase">Ứng suất pháp σ = P/A₀</span>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span id="gauge-sigma" class="font-mono-tech font-extrabold text-xl sm:text-2xl text-[#b8522a]">0.0</span>
+              <span class="font-mono-tech text-xs font-semibold text-[#52605b]">MPa</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-[#d6ddd9] p-3 shadow-sm">
+            <span class="text-[11px] font-semibold text-[#52605b] uppercase">Đường kính tại cổ d</span>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span id="gauge-d" class="font-mono-tech font-extrabold text-xl sm:text-2xl text-[#1b2421]">10.00</span>
+              <span class="font-mono-tech text-xs font-semibold text-[#52605b]">mm</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIDDLE ROW: DUAL INTERACTIVE CANVASES (SPECIMEN + P-ΔL GRAPH) -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+
+          <!-- SPECIMEN & CALIPER VIEW (6 COLS) -->
+          <section class="xl:col-span-6 bg-white rounded-xl border border-[#d6ddd9] p-3.5 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b]">
+                MÔ PHỎNG MẪU TRONG NGÀM MÁY KÉO M.A.N
+              </h3>
+              <label id="caliper-toggle-wrap" class="hidden items-center gap-1.5 text-xs font-semibold text-[#135d4b] cursor-pointer select-none">
+                <input id="chk-reassemble" type="checkbox" checked onchange="renderAll()" class="rounded accent-[#135d4b]" />
+                <span>Chấp liền đo thước kẹp L₁</span>
+              </label>
+            </div>
+
+            <div id="specimen-canvas-wrap" class="relative w-full h-[300px] sm:h-[330px] rounded-lg border border-[#e3e8e5] bg-[#fafcfb] overflow-hidden">
+              <canvas id="specimenCanvas" class="w-full h-full block"></canvas>
+            </div>
+
+            <div class="mt-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#52605b]">
+              <span>• Vạch chia chuẩn: <strong class="font-mono-tech text-[#1b2421]">10 mm / khoảng</strong></span>
+              <span id="fracture-type-note">• Dạng phá hỏng: <strong class="text-[#1b2421]">Dẻo (côn – chén, góc ~45°)</strong></span>
+            </div>
+          </section>
+
+          <!-- P - ΔL DIAGRAM VIEW (6 COLS) -->
+          <section class="xl:col-span-6 bg-white rounded-xl border border-[#d6ddd9] p-3.5 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b]">
+                BIỂU ĐỒ QUAN HỆ LỰC – BIẾN DẠNG DÀI (P – ΔL)
+              </h3>
+              <span id="graph-mode-tag" class="px-2 py-0.5 rounded bg-[#e6f2ee] text-[#135d4b] font-mono-tech text-[10.5px] font-bold">
+                KÉO THÉP
+              </span>
+            </div>
+
+            <div id="graph-canvas-wrap" class="relative w-full h-[300px] sm:h-[330px] rounded-lg border border-[#e3e8e5] bg-[#ffffff] overflow-hidden">
+              <canvas id="graphCanvas" class="w-full h-full block"></canvas>
+            </div>
+
+            <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#52605b]">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#135d4b] inline-block"></span> OA: Đàn hồi (Hooke)</span>
+              <span id="leg-yield" class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#d97706] inline-block"></span> AD: Chảy dẻo (P<sub>ch</sub>)</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#b8522a] inline-block"></span> B: Bền lớn nhất (P<sub>B</sub>)</span>
+              <span id="leg-neck" class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#dc2626] inline-block"></span> BC: Thắt cổ &amp; đứt</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- BOTTOM ROW: BẢNG BÁO CÁO KẾT QUẢ THÍ NGHIỆM (NHƯ BẢNG TREO TƯỜNG) -->
+        <section class="bg-white rounded-xl border border-[#d6ddd9] p-4 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <h3 class="text-[11.5px] font-bold tracking-wider uppercase text-[#135d4b]">
+                BẢNG SỐ LIỆU &amp; TÍNH TOÁN ĐẶC TRƯNG CƠ HỌC (MỤC 1.7)
+              </h3>
+              <span id="result-status-pill" class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-100 text-amber-800">
+                Đang chờ hoàn tất kéo đứt mẫu
+              </span>
+            </div>
+            <button onclick="completeInstantly()" class="text-xs font-semibold text-[#135d4b] hover:underline">
+              Kéo nhanh tới lúc đứt →
+            </button>
+          </div>
+
+          <div class="overflow-x-auto custom-scroll border border-[#d6ddd9] rounded-lg">
+            <table class="w-full text-center border-collapse text-xs">
+              <thead class="bg-[#f7f9f8] border-b border-[#d6ddd9] text-[11px] font-bold text-[#1b2421]">
+                <tr>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">Vật liệu</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">d₀ (mm)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">A₀ (mm²)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">L₀ (mm)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">P<sub>ch</sub> (kN)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">P<sub>B</sub> (kN)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">L₁ (mm)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9]">d₁ (mm)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9] text-[#135d4b]">σ<sub>ch</sub> (MPa)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9] text-[#b8522a]">σ<sub>B</sub> (MPa)</th>
+                  <th class="py-2 px-2 border-r border-[#d6ddd9] text-[#135d4b]">δ (%)</th>
+                  <th class="py-2 px-2 text-[#135d4b]">ψ (%)</th>
+                </tr>
+              </thead>
+              <tbody class="font-mono-tech text-xs">
+                <tr id="report-row" class="bg-white">
+                  <td id="rep-mat" class="py-2.5 px-2 border-r border-[#d6ddd9] font-sans font-bold">Thép</td>
+                  <td id="rep-d0" class="py-2.5 px-2 border-r border-[#d6ddd9]">10.0</td>
+                  <td id="rep-A0" class="py-2.5 px-2 border-r border-[#d6ddd9]">78.54</td>
+                  <td id="rep-L0" class="py-2.5 px-2 border-r border-[#d6ddd9]">100.0</td>
+                  <td id="rep-Pch" class="py-2.5 px-2 border-r border-[#d6ddd9] font-semibold">—</td>
+                  <td id="rep-PB" class="py-2.5 px-2 border-r border-[#d6ddd9] font-semibold">—</td>
+                  <td id="rep-L1" class="py-2.5 px-2 border-r border-[#d6ddd9] font-semibold">—</td>
+                  <td id="rep-d1" class="py-2.5 px-2 border-r border-[#d6ddd9] font-semibold">—</td>
+                  <td id="rep-sigCh" class="py-2.5 px-2 border-r border-[#d6ddd9] font-extrabold text-[#135d4b]">—</td>
+                  <td id="rep-sigB" class="py-2.5 px-2 border-r border-[#d6ddd9] font-extrabold text-[#b8522a]">—</td>
+                  <td id="rep-delta" class="py-2.5 px-2 border-r border-[#d6ddd9] font-extrabold text-[#135d4b]">—</td>
+                  <td id="rep-psi" class="py-2.5 px-2 font-extrabold text-[#135d4b]">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Detailed Step-by-Step L1 Calculation Breakdown (Shown when fractured) -->
+          <div id="L1-calculation-detail" class="hidden mt-3 p-3 rounded-lg bg-[#f7f9f8] border border-[#d6ddd9] text-xs text-[#1b2421]">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /**
+     * ============================================================================
+     * TENSILE TEST SIMULATOR (THÍ NGHIỆM KÉO THÉP & GANG - TCVN 197)
+     * Accurate mechanical constitutive curve, localized necking, fracture shapes,
+     * and standard TCVN 197 L1 gauge-mark reassembly calculation.
+     * ============================================================================
+     */
+
+    const state = {
+      material: 'steel',      // 'steel' | 'iron'
+      lengthFactor: 10,       // 10 (mẫu dài) or 5 (mẫu ngắn) for steel; 4 for iron
+      d0: 10.0,               // mm
+      fracturePos: 'center',  // 'center' | 'edge'
+      progress: 0,            // 0 to 100 (%)
+      running: false,
+      speed: 1,
+      animFrameId: null,
+      lastTimestamp: 0
+    };
+
+    // Material mechanical properties (typical laboratory values for CT3 steel & GX15-32 cast iron)
+    const MATERIAL_PROPS = {
+      steel: {
+        name: 'Thép CT3',
+        E: 205000,         // MPa (N/mm^2)
+        sigmaCh: 265,      // MPa (Giới hạn chảy)
+        sigmaB: 425,       // MPa (Giới hạn bền)
+        sigmaFracture: 345,// MPa (Ứng suất danh nghĩa lúc đứt)
+        delta10: 26.0,     // % độ giãn dài tương đối với mẫu dài 10d0
+        delta5: 32.0,      // % độ giãn dài tương đối với mẫu ngắn 5d0
+        psi: 58.0          // % độ thắt tỷ đối tại cổ thắt
+      },
+      iron: {
+        name: 'Gang xám',
+        E: 110000,         // MPa
+        sigmaCh: null,     // Không có giới hạn chảy
+        sigmaB: 175,       // MPa (Giới hạn bền kéo đứt)
+        sigmaFracture: 168,// MPa
+        delta: 0.7,        // % biến dạng rất nhỏ (vật liệu giòn)
+        psi: 0.5           // % hầu như không thắt tiết diện
+      }
+    };
+
+    /**
+     * Computes derived specimen geometry & key force/elongation milestones.
+     */
+    function getSpecimenMetrics() {
+      const { material, lengthFactor, d0, fracturePos } = state;
+      const A0 = (Math.PI * d0 * d0) / 4; // mm^2
+      const factor = material === 'iron' ? 4 : lengthFactor;
+      const L0 = factor * d0;             // mm
+      const N = Math.max(4, Math.round(L0 / 10)); // Number of 10mm gauge divisions
+
+      if (material === 'steel') {
+        const props = MATERIAL_PROPS.steel;
+        const Pch = (props.sigmaCh * A0) / 1000; // kN
+        const PB = (props.sigmaB * A0) / 1000;   // kN
+        const Pf = (props.sigmaFracture * A0) / 1000; // kN
+
+        const dL_elastic = (props.sigmaCh / props.E) * L0; // ~0.13 mm (magnified slightly on visual curve for clarity)
+        const dL_yieldEnd = L0 * 0.024;                    // ~2.4 mm yield plateau
+        const dL_ultimate = L0 * 0.165;                    // ~16.5 mm uniform strain hardening peak
+        const deltaTarget = factor === 10 ? props.delta10 : props.delta5;
+        const dL_fracture = L0 * (deltaTarget / 100);      // e.g. 26 mm for L0=100mm
+
+        // Final necked area A1 and diameter d1 from psi% = (A0 - A1)/A0 * 100
+        const A1 = A0 * (1 - props.psi / 100);
+        const d1 = Math.sqrt((4 * A1) / Math.PI);
+
+        // Fracture mark index kFracture (0..N)
+        // 'center': middle of N intervals; 'edge': x < L0/3 (e.g. 2 intervals from left mark A)
+        const xIntervals = fracturePos === 'center'
+          ? Math.floor(N / 2)
+          : Math.max(1, Math.floor(N / 4));
+
+        return {
+          material,
+          d0,
+          A0,
+          L0,
+          N,
+          Pch,
+          PB,
+          Pf,
+          dL_elastic,
+          dL_yieldEnd,
+          dL_ultimate,
+          dL_fracture,
+          d1,
+          A1,
+          deltaTarget,
+          psiTarget: props.psi,
+          xIntervals
+        };
+      } else {
+        const props = MATERIAL_PROPS.iron;
+        const PB = (props.sigmaB * A0) / 1000; // kN
+        const Pf = (props.sigmaFracture * A0) / 1000;
+        const dL_ultimate = L0 * 0.0055;
+        const dL_fracture = L0 * (props.delta / 100);
+        const A1 = A0 * (1 - props.psi / 100);
+        const d1 = Math.sqrt((4 * A1) / Math.PI);
+        const xIntervals = Math.floor(N / 2);
+
+        return {
+          material,
+          d0,
+          A0,
+          L0,
+          N,
+          Pch: null,
+          PB,
+          Pf,
+          dL_elastic: dL_ultimate * 0.5,
+          dL_yieldEnd: dL_ultimate * 0.5,
+          dL_ultimate,
+          dL_fracture,
+          d1,
+          A1,
+          deltaTarget: props.delta,
+          psiTarget: props.psi,
+          xIntervals
+        };
+      }
+    }
+
+    /**
+     * Evaluates instantaneous state (P, dL, d_neck, stageInfo, fractured) at progress p in [0, 100].
+     */
+    function evaluateAtProgress(p, M) {
+      const fractured = p >= 99.9;
+
+      if (M.material === 'steel') {
+        // Progress milestones:
+        // 0..18%: OA Elastic stage
+        // 18..34%: AD Yield plateau (thềm chảy)
+        // 34..72%: DB Strain hardening (củng cố) up to PB
+        // 72..100%: BC Localized necking (thắt cổ chai) until fracture at 100%
+        let dL = 0;
+        let P = 0;
+        let dCurr = M.d0;
+        let neckSeverity = 0; // 0 to 1
+        let stageKey = 'ready';
+
+        if (p <= 0.1) {
+          stageKey = 'ready';
+        } else if (p <= 18) {
+          stageKey = 'elastic';
+          const u = p / 18;
+          dL = u * M.dL_elastic;
+          P = u * M.Pch;
+          // Slight Poisson elastic contraction
+          dCurr = M.d0 * (1 - 0.3 * (dL / M.L0));
+        } else if (p <= 34) {
+          stageKey = 'yield';
+          const u = (p - 18) / 16;
+          dL = M.dL_elastic + u * (M.dL_yieldEnd - M.dL_elastic);
+          // Subtle upper/lower yield ripple around Pch
+          const ripple = Math.sin(u * Math.PI * 5) * 0.012 * M.Pch + (1 - u) * 0.015 * M.Pch;
+          P = M.Pch + ripple;
+          dCurr = M.d0 * Math.sqrt(M.L0 / (M.L0 + dL));
+        } else if (p <= 72) {
+          stageKey = 'hardening';
+          const u = (p - 34) / 38;
+          dL = M.dL_yieldEnd + u * (M.dL_ultimate - M.dL_yieldEnd);
+          // Parabolic strain hardening curve peaking smoothly at u = 1 (PB)
+          P = M.Pch + (M.PB - M.Pch) * Math.sin((u * Math.PI) / 2);
+          // Uniform volume conservation: A * L = A0 * L0 -> d = d0 * sqrt(L0 / (L0 + dL))
+          dCurr = M.d0 * Math.sqrt(M.L0 / (M.L0 + dL));
+        } else {
+          stageKey = fractured ? 'fractured' : 'necking';
+          const u = Math.min(1, (p - 72) / 28);
+          dL = M.dL_ultimate + u * (M.dL_fracture - M.dL_ultimate);
+          // Load drops as cross-section necks down rapidly
+          P = M.PB - (M.PB - M.Pf) * Math.pow(u, 1.45);
+          const dAtUltimate = M.d0 * Math.sqrt(M.L0 / (M.L0 + M.dL_ultimate));
+          neckSeverity = Math.pow(u, 1.15);
+          dCurr = dAtUltimate - (dAtUltimate - M.d1) * neckSeverity;
+        }
+
+        const sigma = (P * 1000) / M.A0;
+        return { P, dL, sigma, dCurr, neckSeverity, fractured, stageKey };
+      } else {
+        // Cast Iron (Brittle): 0..60% near-linear elastic, 60..100% slight curve to sudden brittle fracture
+        let dL = 0;
+        let P = 0;
+        let stageKey = p <= 0.1 ? 'ready' : (fractured ? 'fractured' : 'brittle');
+
+        if (p <= 75) {
+          const u = p / 75;
+          dL = u * M.dL_ultimate;
+          P = M.PB * (1.15 * u - 0.15 * u * u);
+        } else {
+          const u = Math.min(1, (p - 75) / 25);
+          dL = M.dL_ultimate + u * (M.dL_fracture - M.dL_ultimate);
+          P = M.PB - (M.PB - M.Pf) * (u * u);
+        }
+
+        const dCurr = M.d0 * (1 - 0.25 * (dL / M.L0));
+        const sigma = (P * 1000) / M.A0;
+        return { P, dL, sigma, dCurr, neckSeverity: 0, fractured, stageKey };
+      }
+    }
+
+    /**
+     * Computes L1 and gauge-mark breakdown according to TCVN 197 rules (Section 1.7b).
+     */
+    function computeTCVN_L1(M) {
+      if (M.material === 'iron') {
+        const L1 = M.L0 + M.dL_fracture;
+        const delta = ((L1 - M.L0) / M.L0) * 100;
+        return {
+          isEdgeCase: false,
+          L1,
+          delta,
+          formulaText: `Gang là vật liệu giòn, độ giãn dài rất nhỏ: L₁ = ${L1.toFixed(2)} mm → δ% = ${delta.toFixed(2)}%`
+        };
+      }
+
+      const N = M.N;
+      const x = M.xIntervals; // number of gauge divisions from left edge mark A to fracture O
+      const oneThird = N / 3;
+      const twoThird = (2 * N) / 3;
+
+      // Total stretched length of the N original intervals when reassembled
+      const totalStretchedL = M.L0 + M.dL_fracture;
+      const avgInterval = totalStretchedL / N;
+      // Necking concentrates extra local elongation near fracture O
+      const neckExtra = M.dL_fracture * 0.35;
+      const uniformInterval = (M.L0 + (M.dL_fracture - neckExtra)) / N;
+
+      if (x >= oneThird && x <= twoThird) {
+        // Standard middle fracture: L0/3 <= x <= 2L0/3 -> measure directly across N intervals
+        const L1 = totalStretchedL;
+        const delta = ((L1 - M.L0) / M.L0) * 100;
+        return {
+          isEdgeCase: false,
+          x,
+          N,
+          L1,
+          delta,
+          formulaText: `Vết đứt nằm ở khoảng giữa (x = ${x} khoảng ∈ [${oneThird.toFixed(1)}, ${twoThird.toFixed(1)}]): Đo trực tiếp chiều dài N = ${N} khoảng ban đầu → L₁ = ${L1.toFixed(2)} mm, δ% = ((${L1.toFixed(2)} − ${M.L0}) / ${M.L0}) × 100% = ${delta.toFixed(2)}%.`
+        };
+      } else {
+        // Edge fracture: x < L0/3 -> shift gauge marks per TCVN 197!
+        // A is left end mark; O is at x intervals from A; B is symmetric to A across O -> AB = n = 2*x intervals.
+        const n = 2 * x;
+        const rem = N - n;
+        const isEven = rem % 2 === 0;
+        const BC = isEven ? rem / 2 : (rem - 1) / 2;
+        const CCprime = isEven ? 0 : 1;
+
+        // Physical lengths of segments AB (contains neckExtra), BC, and CC'
+        const lenAB = n * uniformInterval + neckExtra;
+        const lenBC = BC * uniformInterval;
+        const lenCCp = CCprime * uniformInterval;
+
+        const L1 = lenAB + 2 * lenBC + lenCCp;
+        const delta = ((L1 - M.L0) / M.L0) * 100;
+
+        const parityText = isEven
+          ? `N − n = ${N} − ${n} = ${rem} (số chẵn) ⇒ BC = (N − n)/2 = ${BC} khoảng ⇒ L₁ = AB + 2·BC`
+          : `N − n = ${N} − ${n} = ${rem} (số lẻ) ⇒ BC = (N − n − 1)/2 = ${BC} khoảng, CC' = 1 khoảng ⇒ L₁ = AB + 2·BC + CC'`;
+
+        return {
+          isEdgeCase: true,
+          x,
+          n,
+          BC,
+          CCprime,
+          isEven,
+          N,
+          L1,
+          delta,
+          formulaText: `Vết đứt ở biên (x = ${x} < L₀/3 = ${oneThird.toFixed(1)}): Lấy B đối xứng A qua O (n = 2x = ${n} khoảng). Vì ${parityText} → L₁ = ${L1.toFixed(2)} mm, δ% = ${delta.toFixed(2)}%.`
+        };
+      }
+    }
+
+    // =========================================================================
+    // CANVAS 1: TENSILE TESTING MACHINE & SPECIMEN + VERNIER CALIPER
+    // =========================================================================
+    function renderSpecimenCanvas(M, ev) {
+      const canvas = document.getElementById('specimenCanvas');
+      const wrap = document.getElementById('specimen-canvas-wrap');
+      if (!canvas || !wrap) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const rect = wrap.getBoundingClientRect();
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const reassemble = ev.fractured && document.getElementById('chk-reassemble').checked;
+
+      // Subtle engineering grid background
+      ctx.strokeStyle = 'rgba(19, 93, 75, 0.05)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 20) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (let gy = 0; gy < H; gy += 20) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+
+      const centerY = reassemble ? H * 0.42 : H * 0.50;
+
+      // Scale geometry to fit nicely between left & right hydraulic grips
+      const baseGaugePx = Math.min(W * 0.48, 250);
+      const stretchRatio = 1 + (ev.dL / M.L0) * 1.45; // Visual exaggeration factor (1.45x) so deformation is crystal clear
+      const gaugePx = baseGaugePx * stretchRatio;
+
+      const gripW = 46;
+      const gripH = 68;
+      const shoulderW = 28;
+      const shoulderH = 44;
+
+      const r0Px = Math.max(8, (M.d0 / 10) * 14);
+      const rCurrPx = r0Px * (ev.dCurr / M.d0);
+
+      // Fracture axial fraction uFrac in [0, 1] along gauge length L0
+      const uFrac = M.xIntervals / M.N;
+      const gapPx = ev.fractured ? (reassemble ? 2 : 24) : 0;
+
+      const totalSpanPx = 2 * (gripW + shoulderW) + gaugePx + gapPx;
+      const startX = (W - totalSpanPx) * 0.5;
+
+      const leftGripX = startX;
+      const leftGaugeStartX = leftGripX + gripW + shoulderW;
+      const fractureXLeft = leftGaugeStartX + uFrac * gaugePx;
+      const fractureXRight = fractureXLeft + gapPx;
+      const rightGaugeEndX = leftGaugeStartX + gaugePx + gapPx;
+      const rightGripX = rightGaugeEndX + shoulderW;
+
+      // Helper to compute local radius r(u) along specimen gauge [0..1]
+      const getRadiusAtU = (u) => {
+        if (M.material === 'iron' || ev.neckSeverity <= 0.001) {
+          return rCurrPx;
+        }
+        // Smooth Gaussian neck profile centered at uFrac
+        const dist = (u - uFrac);
+        const sigmaW = 0.11;
+        const neckDrop = (r0Px * Math.sqrt(M.L0 / (M.L0 + M.dL_ultimate)) - rCurrPx) * Math.exp(-(dist * dist) / (2 * sigmaW * sigmaW));
+        const uniformR = r0Px * Math.sqrt(M.L0 / (M.L0 + M.dL_ultimate));
+        return Math.max(3.5, uniformR - neckDrop);
+      };
+
+      // Metallic gradient for specimen
+      const metalGrad = ctx.createLinearGradient(0, centerY - r0Px - 8, 0, centerY + r0Px + 8);
+      if (M.material === 'steel') {
+        metalGrad.addColorStop(0, '#7c878e');
+        metalGrad.addColorStop(0.32, '#dce2e6');
+        metalGrad.addColorStop(0.55, '#aeb8bf');
+        metalGrad.addColorStop(1, '#616b72');
+      } else {
+        metalGrad.addColorStop(0, '#4b5054');
+        metalGrad.addColorStop(0.35, '#8f969c');
+        metalGrad.addColorStop(0.65, '#636a70');
+        metalGrad.addColorStop(1, '#383c40');
+      }
+
+      // 1. DRAW LEFT & RIGHT SPECIMEN HALVES
+      ctx.save();
+      ctx.fillStyle = metalGrad;
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1.3;
+
+      // Left half polygon (from grip through fillet and gauge up to fractureXLeft)
+      ctx.beginPath();
+      ctx.moveTo(leftGripX, centerY - shoulderH / 2);
+      ctx.lineTo(leftGripX + gripW, centerY - shoulderH / 2);
+      ctx.quadraticCurveTo(leftGripX + gripW + shoulderW * 0.5, centerY - shoulderH / 2, leftGaugeStartX, centerY - rCurrPx);
+
+      const stepsL = 40;
+      for (let i = 0; i <= stepsL; i++) {
+        const u = (i / stepsL) * uFrac;
+        const px = leftGaugeStartX + u * gaugePx;
+        const py = centerY - getRadiusAtU(u);
+        ctx.lineTo(px, py);
+      }
+
+      // Fracture tip profile (Cup-and-Cone 45° for steel, flat 90° for cast iron)
+      const rTip = getRadiusAtU(uFrac);
+      if (ev.fractured) {
+        if (M.material === 'steel') {
+          ctx.lineTo(fractureXLeft + 4, centerY - rTip * 0.45);
+          ctx.lineTo(fractureXLeft + 4, centerY + rTip * 0.45);
+          ctx.lineTo(fractureXLeft, centerY + rTip);
+        } else {
+          ctx.lineTo(fractureXLeft, centerY + rTip);
+        }
+      } else {
+        ctx.lineTo(fractureXLeft, centerY + rTip);
+      }
+
+      for (let i = stepsL; i >= 0; i--) {
+        const u = (i / stepsL) * uFrac;
+        const px = leftGaugeStartX + u * gaugePx;
+        const py = centerY + getRadiusAtU(u);
+        ctx.lineTo(px, py);
+      }
+      ctx.quadraticCurveTo(leftGripX + gripW + shoulderW * 0.5, centerY + shoulderH / 2, leftGripX + gripW, centerY + shoulderH / 2);
+      ctx.lineTo(leftGripX, centerY + shoulderH / 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Right half polygon (from fractureXRight through gauge and fillet to right grip)
+      ctx.beginPath();
+      if (ev.fractured && M.material === 'steel') {
+        ctx.moveTo(fractureXRight, centerY - rTip);
+        ctx.lineTo(fractureXRight + 4, centerY - rTip * 0.45);
+        ctx.lineTo(fractureXRight + 4, centerY + rTip * 0.45);
+        ctx.lineTo(fractureXRight, centerY + rTip);
+      } else {
+        ctx.moveTo(fractureXRight, centerY - rTip);
+        ctx.lineTo(fractureXRight, centerY + rTip);
+      }
+
+      const stepsR = 40;
+      for (let i = 0; i <= stepsR; i++) {
+        const u = uFrac + (i / stepsR) * (1 - uFrac);
+        const px = fractureXRight + ((u - uFrac) * gaugePx);
+        const py = centerY + getRadiusAtU(u);
+        ctx.lineTo(px, py);
+      }
+      ctx.quadraticCurveTo(rightGaugeEndX + shoulderW * 0.5, centerY + shoulderH / 2, rightGaugeEndX + shoulderW, centerY + shoulderH / 2);
+      ctx.lineTo(rightGripX + gripW, centerY + shoulderH / 2);
+      ctx.lineTo(rightGripX + gripW, centerY - shoulderH / 2);
+      ctx.lineTo(rightGaugeEndX + shoulderW, centerY - shoulderH / 2);
+      ctx.quadraticCurveTo(rightGaugeEndX + shoulderW * 0.5, centerY - shoulderH / 2, rightGaugeEndX, centerY - rCurrPx);
+
+      for (let i = stepsR; i >= 0; i--) {
+        const u = uFrac + (i / stepsR) * (1 - uFrac);
+        const px = fractureXRight + ((u - uFrac) * gaugePx);
+        const py = centerY - getRadiusAtU(u);
+        ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 2. DRAW SCRIBED GAUGE MARKS (N INTERVALS OF 10mm) ON SPECIMEN
+      ctx.save();
+      const markPositionsX = [];
+      for (let k = 0; k <= M.N; k++) {
+        const u = k / M.N;
+        const px = u <= uFrac
+          ? leftGaugeStartX + u * gaugePx
+          : fractureXRight + (u - uFrac) * gaugePx;
+        markPositionsX.push(px);
+
+        const rLocal = getRadiusAtU(u);
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = (k === 0 || k === M.N) ? 1.8 : 1.1;
+        ctx.beginPath();
+        ctx.moveTo(px, centerY - rLocal);
+        ctx.lineTo(px, centerY + rLocal);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // 3. DRAW HYDRAULIC GRIPS (NGÀM MÁY KÉO M.A.N) WHEN NOT REASSEMBLED
+      if (!reassemble) {
+        ctx.save();
+        const drawGrip = (gx, isLeft) => {
+          ctx.fillStyle = '#1e293b';
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 1.5;
+          // Top and bottom jaw blocks
+          ctx.fillRect(gx - 4, centerY - gripH / 2, gripW + 4, (gripH - shoulderH) / 2 + 4);
+          ctx.fillRect(gx - 4, centerY + shoulderH / 2 - 4, gripW + 4, (gripH - shoulderH) / 2 + 4);
+
+          // Serrated jaw teeth
+          ctx.strokeStyle = '#94a3b8';
+          ctx.lineWidth = 1;
+          for (let tx = gx; tx < gx + gripW - 4; tx += 6) {
+            ctx.beginPath();
+            ctx.moveTo(tx, centerY - shoulderH / 2 + 3);
+            ctx.lineTo(tx + 3, centerY - shoulderH / 2);
+            ctx.moveTo(tx, centerY + shoulderH / 2 - 3);
+            ctx.lineTo(tx + 3, centerY + shoulderH / 2);
+            ctx.stroke();
+          }
+
+          // Force pulling arrow P
+          if (ev.P > 0.05 && !ev.fractured) {
+            const arrowLen = Math.min(36, 14 + (ev.P / M.PB) * 22);
+            const ay = centerY;
+            const axStart = isLeft ? gx - 8 : gx + gripW + 4;
+            const axEnd = isLeft ? axStart - arrowLen : axStart + arrowLen;
+
+            ctx.strokeStyle = '#b8522a';
+            ctx.fillStyle = '#b8522a';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(axStart, ay);
+            ctx.lineTo(axEnd, ay);
+            ctx.stroke();
+
+            const dir = isLeft ? -1 : 1;
+            ctx.beginPath();
+            ctx.moveTo(axEnd, ay);
+            ctx.lineTo(axEnd - dir * 7, ay - 4.5);
+            ctx.lineTo(axEnd - dir * 7, ay + 4.5);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.font = '700 11px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('P', (axStart + axEnd) / 2, ay - 9);
+          }
+        };
+
+        drawGrip(leftGripX, true);
+        drawGrip(rightGripX, false);
+        ctx.restore();
+      }
+
+      // 4. DIMENSION CALLOUTS: L = L0 + ΔL OR VERNIER CALIPER L1 MEASUREMENT
+      ctx.save();
+      const dimY = centerY + gripH / 2 + 24;
+      const xStartL = markPositionsX[0];
+      const xEndL = markPositionsX[M.N];
+
+      if (!reassemble) {
+        // Show current gauge length L = L0 + dL
+        ctx.strokeStyle = '#135d4b';
+        ctx.fillStyle = '#135d4b';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(xStartL, centerY + rCurrPx + 4);
+        ctx.lineTo(xStartL, dimY + 4);
+        ctx.moveTo(xEndL, centerY + rCurrPx + 4);
+        ctx.lineTo(xEndL, dimY + 4);
+        ctx.moveTo(xStartL, dimY);
+        ctx.lineTo(xEndL, dimY);
+        ctx.stroke();
+
+        ctx.font = '600 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        const curL = M.L0 + ev.dL;
+        ctx.fillText(`L = ${curL.toFixed(2)} mm (L₀ = ${M.L0} mm)`, (xStartL + xEndL) / 2, dimY + 15);
+      } else {
+        // VERNIER CALIPER MEASURING L1 AFTER REASSEMBLY!
+        const resL1 = computeTCVN_L1(M);
+        const measStartX = markPositionsX[0];
+        let measEndIdx = M.N;
+
+        if (resL1.isEdgeCase) {
+          // Highlight A, O, B, C, C' markers as in Figure 1.7b!
+          const idxA = 0;
+          const idxO = resL1.x;
+          const idxB = resL1.n;
+          const idxC = Math.min(M.N, idxB + resL1.BC);
+          const idxCp = Math.min(M.N, idxC + resL1.CCprime);
+          measEndIdx = idxCp;
+
+          const drawTopTag = (idx, lbl, col) => {
+            const px = markPositionsX[idx];
+            ctx.fillStyle = col;
+            ctx.font = '700 11px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(lbl, px, centerY - r0Px - 14);
+            ctx.beginPath();
+            ctx.arc(px, centerY - r0Px - 6, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          };
+
+          drawTopTag(idxA, 'A', '#135d4b');
+          drawTopTag(idxO, 'O (đứt)', '#dc2626');
+          drawTopTag(idxB, 'B', '#135d4b');
+          drawTopTag(idxC, 'C', '#b8522a');
+          if (!resL1.isEven) drawTopTag(idxCp, "C'", '#b8522a');
+        }
+
+        const measEndX = markPositionsX[measEndIdx];
+        const calY = centerY + r0Px + 24;
+
+        // Draw Vernier Caliper body & jaws
+        ctx.fillStyle = '#e2e8f0';
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1.2;
+
+        // Left fixed jaw
+        ctx.beginPath();
+        ctx.moveTo(measStartX, centerY + r0Px + 2);
+        ctx.lineTo(measStartX, calY + 14);
+        ctx.lineTo(measStartX - 8, calY + 14);
+        ctx.lineTo(measStartX - 8, calY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Main scale beam
+        ctx.fillRect(measStartX - 8, calY, Math.max(gaugePx + 45, measEndX - measStartX + 40), 14);
+        ctx.strokeRect(measStartX - 8, calY, Math.max(gaugePx + 45, measEndX - measStartX + 40), 14);
+
+        // Sliding jaw at measEndX
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath();
+        ctx.moveTo(measEndX, centerY + r0Px + 2);
+        ctx.lineTo(measEndX + 18, calY);
+        ctx.lineTo(measEndX + 18, calY + 16);
+        ctx.lineTo(measEndX, calY + 16);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Vernier digital readout badge
+        ctx.fillStyle = '#135d4b';
+        ctx.fillRect(measEndX + 22, calY - 2, 92, 18);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 10.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(`L₁=${resL1.L1.toFixed(1)}mm`, measEndX + 26, calY + 10.5);
+      }
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // CANVAS 2: REAL-TIME LOAD-ELONGATION DIAGRAM (P - ΔL)
+    // =========================================================================
+    function renderGraphCanvas(M, ev) {
+      const canvas = document.getElementById('graphCanvas');
+      const wrap = document.getElementById('graph-canvas-wrap');
+      if (!canvas || !wrap) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const rect = wrap.getBoundingClientRect();
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const padL = 52;
+      const padR = 26;
+      const padT = 26;
+      const padB = 38;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      const maxP = M.PB * 1.18;
+      const maxDL = M.dL_fracture * 1.18;
+
+      const toX = (dl) => padL + (dl / maxDL) * plotW;
+      const toY = (pVal) => padT + plotH - (pVal / maxP) * plotH;
+
+      // Grid lines
+      ctx.save();
+      ctx.strokeStyle = '#eef2f0';
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 5; i++) {
+        const y = padT + (i / 5) * plotH;
+        ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+        const x = padL + (i / 5) * plotW;
+        ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+      }
+
+      // Axes O - ΔL and O - P with arrowheads
+      ctx.strokeStyle = '#1b2421';
+      ctx.fillStyle = '#1b2421';
+      ctx.lineWidth = 1.6;
+
+      // Y-axis
+      ctx.beginPath();
+      ctx.moveTo(padL, padT + plotH);
+      ctx.lineTo(padL, padT - 6);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(padL, padT - 10);
+      ctx.lineTo(padL - 4, padT - 2);
+      ctx.lineTo(padL + 4, padT - 2);
+      ctx.closePath();
+      ctx.fill();
+
+      // X-axis
+      ctx.beginPath();
+      ctx.moveTo(padL, padT + plotH);
+      ctx.lineTo(padL + plotW + 6, padT + plotH);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(padL + plotW + 10, padT + plotH);
+      ctx.lineTo(padL + plotW + 2, padT + plotH - 4);
+      ctx.lineTo(padL + plotW + 2, padT + plotH + 4);
+      ctx.closePath();
+      ctx.fill();
+
+      // Axis labels
+      ctx.font = 'italic 700 12px "Playfair Display", Georgia, serif';
+      ctx.fillText('P (kN)', padL - 36, padT - 6);
+      ctx.fillText('ΔL (mm)', padL + plotW - 14, padT + plotH + 24);
+      ctx.fillText('O', padL - 14, padT + plotH + 14);
+
+      // Tick numbers
+      ctx.font = '500 10px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#52605b';
+      ctx.textAlign = 'right';
+      for (let i = 1; i <= 4; i++) {
+        const pTick = (maxP * i) / 4;
+        ctx.fillText(pTick.toFixed(1), padL - 6, toY(pTick) + 3);
+      }
+      ctx.textAlign = 'center';
+      for (let i = 1; i <= 4; i++) {
+        const dlTick = (maxDL * i) / 4;
+        ctx.fillText(dlTick.toFixed(1), toX(dlTick), padT + plotH + 14);
+      }
+      ctx.restore();
+
+      // Draw faint ghost reference curve up to 100%
+      ctx.save();
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      for (let pStep = 0; pStep <= 100; pStep += 1) {
+        const pt = evaluateAtProgress(pStep, M);
+        const sx = toX(pt.dL);
+        const sy = toY(pt.P);
+        if (pStep === 0) ctx.moveTo(sx, sy);
+        else ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+
+      // Draw active traced curve from 0 to state.progress
+      if (state.progress > 0) {
+        ctx.save();
+        ctx.lineWidth = 2.8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const step = 0.5;
+        for (let pStep = 0; pStep < state.progress; pStep += step) {
+          const pNext = Math.min(state.progress, pStep + step);
+          const pt1 = evaluateAtProgress(pStep, M);
+          const pt2 = evaluateAtProgress(pNext, M);
+
+          // Color-code by mechanical stage
+          if (M.material === 'steel') {
+            if (pNext <= 18) ctx.strokeStyle = '#135d4b';       // Elastic
+            else if (pNext <= 34) ctx.strokeStyle = '#d97706';  // Yield plateau
+            else if (pNext <= 72) ctx.strokeStyle = '#b8522a';  // Strain hardening
+            else ctx.strokeStyle = '#dc2626';                   // Necking
+          } else {
+            ctx.strokeStyle = '#b8522a';
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(toX(pt1.dL), toY(pt1.P));
+          ctx.lineTo(toX(pt2.dL), toY(pt2.P));
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // Draw Milestone Projections (Pch, PB) when reached
+      ctx.save();
+      ctx.font = '700 11px "JetBrains Mono", monospace';
+      if (M.material === 'steel' && state.progress >= 18) {
+        const ptA = evaluateAtProgress(18, M);
+        const ptD = evaluateAtProgress(34, M);
+        const yCh = toY(M.Pch);
+
+        ctx.strokeStyle = 'rgba(217, 119, 6, 0.55)';
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(padL, yCh);
+        ctx.lineTo(toX(ptD.dL), yCh);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#b45309';
+        ctx.textAlign = 'right';
+        ctx.fillText(`Pch=${M.Pch.toFixed(1)}`, padL - 4, yCh - 4);
+        ctx.textAlign = 'left';
+        ctx.fillText('A', toX(ptA.dL) - 10, toY(ptA.P) - 6);
+        if (state.progress >= 34) {
+          ctx.fillText('D', toX(ptD.dL) + 4, toY(ptD.P) + 12);
+        }
+      }
+
+      const peakProgress = M.material === 'steel' ? 72 : 75;
+      if (state.progress >= peakProgress) {
+        const ptB = evaluateAtProgress(peakProgress, M);
+        const yB = toY(M.PB);
+
+        ctx.strokeStyle = 'rgba(184, 82, 42, 0.55)';
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(padL, yB);
+        ctx.lineTo(toX(ptB.dL), yB);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#b8522a';
+        ctx.textAlign = 'right';
+        ctx.fillText(`PB=${M.PB.toFixed(1)}`, padL - 4, yB - 4);
+        ctx.textAlign = 'center';
+        ctx.fillText(M.material === 'steel' ? 'B' : 'A (PB)', toX(ptB.dL), yB - 8);
+      }
+
+      // Draw Current Pen Stylus Marker
+      const curX = toX(ev.dL);
+      const curY = toY(ev.P);
+      ctx.fillStyle = ev.fractured ? '#dc2626' : '#135d4b';
+      ctx.beginPath();
+      ctx.arc(curX, curY, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      if (ev.fractured) {
+        ctx.fillStyle = '#dc2626';
+        ctx.font = '700 11px "Inter", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('C (Đứt)', curX + 6, curY + 4);
+      }
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // UI UPDATES & INTERACTION HANDLERS
+    // =========================================================================
+    function updateUI(M, ev) {
+      // Digital Gauges
+      document.getElementById('gauge-P').textContent = ev.P.toFixed(2);
+      document.getElementById('gauge-dL').textContent = ev.dL.toFixed(2);
+      document.getElementById('gauge-sigma').textContent = ev.sigma.toFixed(1);
+      document.getElementById('gauge-d').textContent = ev.dCurr.toFixed(2);
+
+      // Specimen Info Box
+      document.getElementById('disp-A0').textContent = `${M.A0.toFixed(2)} mm²`;
+      document.getElementById('disp-L0').textContent = `${M.L0} mm`;
+      document.getElementById('disp-N').textContent = `${M.N} khoảng`;
+
+      // Progress slider sync
+      document.getElementById('slider-progress').value = state.progress;
+      document.getElementById('val-progress').textContent = `${Math.round(state.progress)}%`;
+
+      // Stage description banner
+      const stageTitles = {
+        ready: 'Trạng thái: Sẵn sàng trong ngàm kéo',
+        elastic: 'Giai đoạn 1 (OA): Biến dạng đàn hồi (Định luật Hooke)',
+        yield: 'Giai đoạn 2 (AD): Biến dạng chảy dẻo (Lực không đổi P ≈ Pch)',
+        hardening: 'Giai đoạn 3 (DB): Củng cố vật liệu (Lực tăng tới PB)',
+        necking: 'Giai đoạn 4 (BC): Thắt cổ chai cục bộ — tiết diện giảm nhanh!',
+        brittle: 'Kéo gang (Vật liệu giòn): Biến dạng rất nhỏ, không có thềm chảy',
+        fractured: 'Mẫu đã bị kéo đứt! Tắt máy, xả áp lực và đo L₁, d₁'
+      };
+      const stageDescs = {
+        ready: 'Mẫu đã vạch chia 10 mm/khoảng và kẹp chặt vào ngàm máy kéo M.A.N. Bấm "Bắt đầu kéo mẫu".',
+        elastic: 'Quan hệ P – ΔL là đường thẳng tỉ lệ bậc nhất. Nếu dỡ tải ở đoạn này, mẫu hồi phục hoàn toàn.',
+        yield: 'Trên mặt mẫu xuất hiện các đường trượt 45° (đường Luder), kim lực dao động quanh Pch.',
+        hardening: 'Vật liệu tự tăng bền, biến dạng dẻo phân bố đều dọc chiều dài L₀ cho tới lực cực đại PB.',
+        necking: 'Tại tiết diện yếu nhất xuất hiện cổ thắt rõ rệt, lực kéo giảm dần cho đến khi đứt hẳn ở điểm C.',
+        brittle: 'Đường cong P – ΔL dốc đứng, gần như không biến dạng dẻo và đứt đột ngột ngay sau khi đạt PB.',
+        fractured: 'Chấp liền hai nửa mẫu đứt lại để dùng thước kẹp đo L₁ và đường kính cổ thắt d₁.'
+      };
+
+      document.getElementById('stage-title').textContent = stageTitles[ev.stageKey];
+      document.getElementById('stage-desc').textContent = stageDescs[ev.stageKey];
+
+      // Caliper checkbox toggle visibility
+      const calWrap = document.getElementById('caliper-toggle-wrap');
+      if (ev.fractured) {
+        calWrap.classList.remove('hidden');
+        calWrap.classList.add('flex');
+      } else {
+        calWrap.classList.add('hidden');
+        calWrap.classList.remove('flex');
+      }
+
+      // Report Table Update
+      document.getElementById('rep-mat').textContent = M.material === 'steel' ? 'Thép CT3' : 'Gang xám';
+      document.getElementById('rep-d0').textContent = M.d0.toFixed(1);
+      document.getElementById('rep-A0').textContent = M.A0.toFixed(2);
+      document.getElementById('rep-L0').textContent = M.L0.toFixed(1);
+
+      const pill = document.getElementById('result-status-pill');
+      const detailBox = document.getElementById('L1-calculation-detail');
+
+      if (ev.fractured) {
+        const resL1 = computeTCVN_L1(M);
+        const sigCh = M.Pch ? ((M.Pch * 1000) / M.A0).toFixed(1) : 'Không XĐ';
+        const sigB = ((M.PB * 1000) / M.A0).toFixed(1);
+        const psi = (((M.A0 - M.A1) / M.A0) * 100).toFixed(1);
+
+        document.getElementById('rep-Pch').textContent = M.Pch ? M.Pch.toFixed(2) : '—';
+        document.getElementById('rep-PB').textContent = M.PB.toFixed(2);
+        document.getElementById('rep-L1').textContent = resL1.L1.toFixed(2);
+        document.getElementById('rep-d1').textContent = M.d1.toFixed(2);
+        document.getElementById('rep-sigCh').textContent = sigCh;
+        document.getElementById('rep-sigB').textContent = sigB;
+        document.getElementById('rep-delta').textContent = `${resL1.delta.toFixed(1)}%`;
+        document.getElementById('rep-psi').textContent = M.material === 'steel' ? `${psi}%` : '~0.5%';
+
+        pill.className = 'px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800';
+        pill.textContent = 'Đã hoàn thành đo & tính kết quả';
+
+        detailBox.classList.remove('hidden');
+        detailBox.innerHTML = `<strong class="text-[#135d4b]">Chi tiết xác định L₁ theo TCVN 197:</strong> ${resL1.formulaText}`;
+      } else {
+        document.getElementById('rep-Pch').textContent = (M.material === 'steel' && state.progress >= 18) ? M.Pch.toFixed(2) : '—';
+        const peakProg = M.material === 'steel' ? 72 : 75;
+        document.getElementById('rep-PB').textContent = state.progress >= peakProg ? M.PB.toFixed(2) : '—';
+        document.getElementById('rep-L1').textContent = '—';
+        document.getElementById('rep-d1').textContent = '—';
+        document.getElementById('rep-sigCh').textContent = (M.material === 'steel' && state.progress >= 18) ? ((M.Pch * 1000) / M.A0).toFixed(1) : '—';
+        document.getElementById('rep-sigB').textContent = state.progress >= peakProg ? ((M.PB * 1000) / M.A0).toFixed(1) : '—';
+        document.getElementById('rep-delta').textContent = '—';
+        document.getElementById('rep-psi').textContent = '—';
+
+        pill.className = 'px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-100 text-amber-800';
+        pill.textContent = 'Đang kéo mẫu...';
+        detailBox.classList.add('hidden');
+      }
+    }
+
+    function renderAll() {
+      const M = getSpecimenMetrics();
+      const ev = evaluateAtProgress(state.progress, M);
+      updateUI(M, ev);
+      renderSpecimenCanvas(M, ev);
+      renderGraphCanvas(M, ev);
+    }
+
+    function setMaterial(mat) {
+      state.material = mat;
+      const btnSteel = document.getElementById('btn-mat-steel');
+      const btnIron = document.getElementById('btn-mat-iron');
+
+      const activeCls = 'py-2 px-2.5 rounded-lg text-xs font-bold border border-[#135d4b] bg-[#e6f2ee] text-[#135d4b] transition flex flex-col items-center shadow-sm';
+      const inactiveCls = 'py-2 px-2.5 rounded-lg text-xs font-bold border border-[#d6ddd9] bg-[#f7f9f8] text-[#52605b] transition flex flex-col items-center';
+
+      if (mat === 'steel') {
+        btnSteel.className = activeCls;
+        btnIron.className = inactiveCls;
+        document.getElementById('sample-ratio-wrap').classList.remove('hidden');
+        document.getElementById('fracture-loc-wrap').classList.remove('hidden');
+        document.getElementById('graph-mode-tag').textContent = 'KÉO THÉP';
+        document.getElementById('leg-yield').classList.remove('hidden');
+        document.getElementById('leg-neck').classList.remove('hidden');
+        document.getElementById('fracture-type-note').innerHTML = '• Dạng phá hỏng: <strong class="text-[#1b2421]">Dẻo (côn – chén, góc ~45°)</strong>';
+      } else {
+        btnIron.className = activeCls;
+        btnSteel.className = inactiveCls;
+        document.getElementById('sample-ratio-wrap').classList.add('hidden');
+        document.getElementById('fracture-loc-wrap').classList.add('hidden');
+        document.getElementById('graph-mode-tag').textContent = 'KÉO GANG';
+        document.getElementById('leg-yield').classList.add('hidden');
+        document.getElementById('leg-neck').classList.add('hidden');
+        document.getElementById('fracture-type-note').innerHTML = '• Dạng phá hỏng: <strong class="text-[#1b2421]">Giòn (mặt phẳng vuông góc 90°)</strong>';
+      }
+
+      resetExperiment();
+    }
+
+    function setLengthFactor(factor) {
+      state.lengthFactor = factor;
+      const b10 = document.getElementById('btn-ratio-10');
+      const b5 = document.getElementById('btn-ratio-5');
+      const act = 'py-1.5 px-2 rounded-lg text-xs font-semibold border border-[#135d4b] bg-[#e6f2ee] text-[#135d4b] transition';
+      const inact = 'py-1.5 px-2 rounded-lg text-xs font-semibold border border-[#d6ddd9] bg-[#f7f9f8] text-[#52605b] transition';
+
+      b10.className = factor === 10 ? act : inact;
+      b5.className = factor === 5 ? act : inact;
+      resetExperiment();
+    }
+
+    function setFracturePosition(pos) {
+      state.fracturePos = pos;
+      renderAll();
+    }
+
+    function setSpeed(spd) {
+      state.speed = spd;
+      document.querySelectorAll('.speed-btn').forEach((btn) => {
+        const s = parseFloat(btn.getAttribute('data-speed'));
+        if (s === spd) {
+          btn.style.cssText = 'border-color:#135d4b; background:#e6f2ee; color:#135d4b;';
+        } else {
+          btn.style.cssText = 'border-color:#d6ddd9; background:#f7f9f8; color:#52605b;';
+        }
+      });
+    }
+
+    function toggleRun() {
+      if (state.progress >= 100) {
+        state.progress = 0;
+      }
+      state.running = !state.running;
+      updateRunButton();
+
+      if (state.running) {
+        state.lastTimestamp = performance.now();
+        state.animFrameId = requestAnimationFrame(stepAnimation);
+      } else if (state.animFrameId) {
+        cancelAnimationFrame(state.animFrameId);
+      }
+    }
+
+    function updateRunButton() {
+      const txt = document.getElementById('txt-run-btn');
+      if (state.running) {
+        txt.textContent = 'Tạm dừng máy kéo';
+      } else if (state.progress >= 100) {
+        txt.textContent = 'Kéo lại mẫu mới';
+      } else if (state.progress > 0) {
+        txt.textContent = 'Tiếp tục kéo';
+      } else {
+        txt.textContent = 'Bắt đầu kéo mẫu';
+      }
+    }
+
+    function stepAnimation(now) {
+      if (!state.running) return;
+      const dt = (now - state.lastTimestamp) / 1000;
+      state.lastTimestamp = now;
+
+      // Advance ~11% per second at 1x speed
+      state.progress = Math.min(100, state.progress + dt * 11 * state.speed);
+      renderAll();
+
+      if (state.progress >= 100) {
+        state.running = false;
+        updateRunButton();
+      } else {
+        state.animFrameId = requestAnimationFrame(stepAnimation);
+      }
+    }
+
+    function resetExperiment() {
+      state.running = false;
+      if (state.animFrameId) cancelAnimationFrame(state.animFrameId);
+      state.progress = 0;
+      updateRunButton();
+      renderAll();
+    }
+
+    function completeInstantly() {
+      state.running = false;
+      if (state.animFrameId) cancelAnimationFrame(state.animFrameId);
+      state.progress = 100;
+      updateRunButton();
+      renderAll();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('slider-d0').addEventListener('input', (e) => {
+        state.d0 = parseFloat(e.target.value);
+        document.getElementById('val-d0').textContent = `${state.d0.toFixed(1)} mm`;
+        resetExperiment();
+      });
+
+      document.getElementById('slider-progress').addEventListener('input', (e) => {
+        state.running = false;
+        if (state.animFrameId) cancelAnimationFrame(state.animFrameId);
+        state.progress = parseFloat(e.target.value);
+        updateRunButton();
+        renderAll();
+      });
+
+      window.addEventListener('resize', renderAll);
+
+      setSpeed(1);
+      setLengthFactor(10);
+      setMaterial('steel');
+    });
+  </script>
+</body>
+</html>
